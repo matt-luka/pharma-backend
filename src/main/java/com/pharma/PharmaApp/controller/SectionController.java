@@ -22,7 +22,7 @@ import com.pharma.PharmaApp.service.SectionService;
 @RestController
 @RequestMapping("/section")
 
-public class ServiceController {
+public class SectionController {
 
 	@Autowired
 	private SectionService secServ;
