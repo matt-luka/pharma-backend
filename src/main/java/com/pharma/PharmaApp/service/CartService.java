@@ -49,7 +49,7 @@ public class CartService {
 
         Optional<Cart> cart = cartRepository.findById(itemID);
 
-        if (!(cart.isPresent())) {
+        if (cart.isEmpty()) {
             throw new CustomException("Invalid Cart ID");
         }
 
