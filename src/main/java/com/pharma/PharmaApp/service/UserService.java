@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,16 +77,12 @@ public class UserService {
     		throw new TokenFailureException("Token does not exist");
     	}
     	
-    	return new LoginReturnDTO("Success", token.getToken());
+    	return new LoginReturnDTO(token.getToken(), "Success");
     	
     }
     
-    String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest sha = MessageDigest.getInstance("MD5");
-        sha.update(password.getBytes());
-        byte[] digest = sha.digest();
-        String hashed_password = DatatypeConverter.printHexBinary(digest).toUpperCase();
-        return hashed_password;
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
+        return DigestUtils.sha256Hex(password);
     }
 	
 }
