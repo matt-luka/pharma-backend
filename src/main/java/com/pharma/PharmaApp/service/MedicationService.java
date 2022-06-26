@@ -49,7 +49,6 @@ public class MedicationService {
         List<MedicationDTO> medDTOs = new ArrayList<>();
 
         for(Medication med : meds) {
-            // for each product change it to DTO
             medDTOs.add(new MedicationDTO(med));
         }
         return medDTOs;
@@ -57,9 +56,7 @@ public class MedicationService {
     
     public void updateMedication(Integer medicationID, MedicationDTO medDTO, Sections section) {
         Medication med = getMedicationFromDTO(medDTO, section);
-        // set the id for updating
         med.setID(medicationID);
-        // update
         medRepository.save(med);
     }
 	

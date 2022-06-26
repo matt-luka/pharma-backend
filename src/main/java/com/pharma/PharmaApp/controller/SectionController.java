@@ -44,14 +44,11 @@ public class SectionController {
 	
 	@PostMapping("/update/{sectionID}")
 	public ResponseEntity<APIResponse> updateCategory(@PathVariable("sectionID") Integer sectionID, @Valid @RequestBody Sections section) {
-		// Check to see if the category exists.
 		if (Objects.nonNull(secServ.readSection(sectionID))) {
-			// If the category exists then update it.
 			secServ.updateSection(sectionID, section);
 			return new ResponseEntity<APIResponse>(new APIResponse(true, "Section successfully updated"), HttpStatus.OK);
 		}
 
-		// If the category doesn't exist then return a response of unsuccessful.
 		return new ResponseEntity<>(new APIResponse(false, "Section does not exist"), HttpStatus.NOT_FOUND);
 	}
 }

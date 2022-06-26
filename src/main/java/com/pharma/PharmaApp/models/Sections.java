@@ -12,8 +12,6 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "sections")
 public class Sections {
 	
-	// Data Fields
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -26,8 +24,6 @@ public class Sections {
 	private @NotBlank String url;
 	
 	
-	// Constructors
-	
 	public Sections() {
 		
 	}
@@ -37,9 +33,6 @@ public class Sections {
 		this.description = description;
 		this.url = url;
 	}
-	
-	
-	// Getters & Setters
 	
 	public Integer getSectionID() {
 		return this.id;
