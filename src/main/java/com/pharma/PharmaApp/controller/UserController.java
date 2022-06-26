@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pharma.PharmaApp.dto.user.LoginDTO;
+import com.pharma.PharmaApp.dto.user.LoginReturnDTO;
 import com.pharma.PharmaApp.dto.user.RegisterDTO;
 import com.pharma.PharmaApp.dto.user.ResponseDTO;
 import com.pharma.PharmaApp.exceptions.CustomException;
+import com.pharma.PharmaApp.exceptions.TokenFailureException;
 import com.pharma.PharmaApp.service.UserService;
 
 @RequestMapping("user")
@@ -23,4 +26,8 @@ public class UserController {
         return userService.register(regDTO);
     }
 	
+    @PostMapping("/login")
+    public LoginReturnDTO login(@RequestBody LoginDTO loginDTO) throws CustomException, TokenFailureException {
+        return userService.login(loginDTO);
+    }
 }
