@@ -8,12 +8,11 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.pharma.PharmaApp.dto.user.RegisterDTO;
 import com.pharma.PharmaApp.dto.user.ResponseDTO;
 import com.pharma.PharmaApp.exceptions.CustomException;
+import com.pharma.PharmaApp.models.Token;
 import com.pharma.PharmaApp.models.User;
 import com.pharma.PharmaApp.repository.UserRepository;
 
@@ -23,13 +22,13 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	TokenService tokenService;
+	
     public ResponseDTO register(RegisterDTO regDTO) throws CustomException {
-        // Check to see if the current email address has already been registered.
         if (Objects.nonNull(userRepository.findByEmail(regDTO.getEmail()))) {
-            // If the email address has been registered then throw an exception.
             throw new CustomException("Cannot register: Duplicate user");
         }
-        // first encrypt the password
         String safePass = regDTO.getPassword();
         try {
             safePass = hashPassword(regDTO.getPassword());
@@ -40,9 +39,10 @@ public class UserService {
         User user = new User(regDTO.getFirstName(), regDTO.getLastName(), regDTO.getEmail(), regDTO.getPhone(), regDTO.getZip(), safePass);
         
         try {
-            // save the User
              userRepository.save(user);
-            // success in creating
+             final Token token = new Token(user);
+             tokenService.setToken(token);
+             
             return new ResponseDTO("201", "Succesfully created user");
         } catch (Exception e) {
             throw new CustomException(e.getMessage());
